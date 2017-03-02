@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 02</title>
+  </head>
+<body>
+
+  <h3>污染城市列表</h3>
+  <ul id="aqi-list">
+<!--   
+    <li>第一名：福州（样例），10</li>
+      <li>第二名：福州（样例），10</li> -->
+  </ul>
+
+<script type="text/javascript">
+
+var aqiData = [
+  ["北京", 90],
+  ["上海", 50],
+  ["福州", 10],
+  ["广州", 50],
+  ["成都", 90],
+  ["西安", 100]
+];
+
+(function () {
+
+  /*
+  在注释下方编写代码
+  遍历读取aqiData中各个城市的数据
+  将空气质量指数大于60的城市显示到aqi-list的列表中
+  */
+ 
+  let cityLists = document.querySelector('#aqi-list')
+  let selectData = []
+
+  for (let i = 0; i < aqiData.length; i++) {
+    if (aqiData[i][1] >= 50) {
+      selectData.push(aqiData[i])
+    }
+  }
+
+  let selectDataCompositorArr = []
+
+  function selectDataCompositor() {
+    let numberSelectArr = []
+    for (let i = 0; i < selectData.length; i++) {
+      numberSelectArr.push(selectData[i][1])
+    }
+    numberSelectArr.sort((a, b) => b - a)
+
+    for (let i = 0; i < numberSelectArr.length; i++) {
+      for (let j = 0; j < selectData.length; j++) {
+        if (selectData[j][1] === numberSelectArr[i]) {
+          let n = 0
+          for (let k = 0; k < selectDataCompositorArr.length; k++) {
+            if (selectData[j][0] == selectDataCompositorArr[k][0]) {
+              n++
+            }
+          }
+          if (n == 0) {
+            selectDataCompositorArr.push(selectData[j])
+            break
+          }
+        }
+      }
+    }
+  }
+
+  selectDataCompositor()
+
+  function turnChineseNumber(n) {
+    switch (n) {
+      case 1:
+      return '一'
+      break
+      case 2:
+      return '二'
+      break
+      case 3:
+      return '三'
+      break
+      case 4:
+      return '四'
+      break
+      case 5:
+      return '五'
+      break
+      case 6:
+      return '六'
+      break
+      case 7:
+      return '七'
+      break
+      case 8:
+      return '八'
+      break
+      case 9:
+      return '九'
+      break
+      case 0:
+      return '十'
+      break
+    }
+  }
+
+  for (let i = 0; i < selectDataCompositorArr.length; i++) {
+    let cityListsChild = document.createElement('li')
+    cityLists.appendChild(cityListsChild).innerHTML = `
+      第${turnChineseNumber(i + 1)}名：${selectDataCompositorArr[i][0]}，空气质量指数：${selectDataCompositorArr[i][1]}
+    `
+  }
+})();
+
+</script>
+</body>
+</html>
