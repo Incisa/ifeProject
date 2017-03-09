@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 06</title>
+	<style>
+		#showBox div {
+			margin: 5px;
+			width: 50px;
+			height: 50px;
+			background-color: #cfc;
+			float: left;
+		}
+	</style>
+</head>
+<body>
+<body>
+	<div>
+		<textarea id="inputArea" type="text"></textarea>
+		<button id="enterLeft">左侧入</button>
+		<button id="enterRight">右侧入</button>
+		<button id="leaveLeft">左侧出</button>
+		<button id="leaveRight">右侧出</button>
+	</div>
+	<div id="showBox">	
+	</div>
+<script>
+	/**
+	 * 基于任务四进行升级
+	 * 将新元素输入框从 input 改为 textarea
+	 * 允许一次批量输入多个内容，格式可以为数字、中文、英文等，
+	 * 可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab 等均可）等符号作为不同内容的间隔。
+	 * 增加一个查询文本输入框，和一个查询按钮，
+	 * 当点击查询时，将查询词在各个元素内容中做模糊匹配，将匹配到的内容进行特殊标识，如文字颜色等。
+	 * 举例，内容中有 abcd，查询词为 ab 或 bc，则该内容需要标识
+	 */
+	
+	 let showBoxElement = document.querySelector('#showBox')
+	 let inputArea = document.querySelector('#inputArea')
+	 document.querySelector('#enterLeft').onclick = function() {
+	 	let newElement = document.createElement('div')
+	 	if (showBoxElement.children.length == 0) {
+	 		showBoxElement.appendChild(newElement)
+	 	} else {
+	 		showBoxElement.insertBefore(newElement, showBoxElement.firstElementChild)
+	 	}
+	 	let innerElement = showBoxElement.firstElementChild
+	 	innerElement.innerHTML = inputArea.value
+	 	inputArea.value = ''
+	 }
+	 document.querySelector('#enterRight').onclick = function() {
+	 	let newElement = document.createElement('div')
+	 	showBoxElement.appendChild(newElement)
+	 	let innerElement = showBoxElement.lastElementChild
+	 	innerElement.innerHTML = inputArea.value
+	 	inputArea.value = ''
+	 }
+	 document.querySelector('#leaveLeft').onclick = function() {
+	 	let newElement = document.createElement('div')
+	 	showBoxElement.removeChild(showBoxElement.firstElementChild)
+	 }
+	 document.querySelector('#leaveRight').onclick = function() {
+	 	let newElement = document.createElement('div')
+	 	showBoxElement.removeChild(showBoxElement.lastElementChild)
+	 }
+
+</script>
+</html>
