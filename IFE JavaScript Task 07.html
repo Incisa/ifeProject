@@ -114,24 +114,31 @@
 <script>
 
 	let tree = document.querySelector('section')
+	let arr
+	//按钮
 	document.querySelector('#prePrderTraverse').onclick = function() {
+		arr = []
 		prePrderTraverse(tree)
+		toggleTree()
 	}
 	document.querySelector('#inOrderTraverse').onclick = function() {
+		arr = []
 		inOrderTraverse(tree)
+		toggleTree()
 	}
 	document.querySelector('#postOrderTraverse').onclick = function() {
+		arr = []
 		postOrderTraverse(tree)
+		toggleTree()
 	}
 	//先序遍历子树
 	function prePrderTraverse(tree) {
-		rander(tree);
-		(function(){setTimeout(clean(tree), 2000)})()
+		arr.push(tree)
 		if (tree.children[0]) {
 			prePrderTraverse(tree.children[0])
 		}
 		if (tree.children[1]) {
-		prePrderTraverse(tree.children[1])
+			prePrderTraverse(tree.children[1])
 		}
 	}
 	//中序遍历子树
@@ -139,9 +146,9 @@
 		if (tree.children[0]) {
 			inOrderTraverse(tree.children[0])
 		}
-		console.log(tree.innerText)
+		arr.push(tree)
 		if (tree.children[1]) {
-		inOrderTraverse(tree.children[1])
+			inOrderTraverse(tree.children[1])
 		}
 	}
 	//后续遍历子树
@@ -152,15 +159,24 @@
 		if (tree.children[1]) {
 		postOrderTraverse(tree.children[1])
 		}
-		console.log(tree.innerText)
+		arr.push(tree)
 	}
 	//动画部分
-	function rander(tree) {
-		tree.style.backgroundColor = "#cfc"
-	}
-
-	function clean(tree) {
-		tree.style.backgroundColor = '#fff'
+	function toggleTree() {
+		for (let i = 0; i < arr.length + 1; i++) {
+			(function(i){
+				setTimeout(function(){
+					if (i < arr.length + 1) {
+			 			if (arr[i]) {
+			 				arr[i].style.background="#cfc";			 				
+			 			}
+			 			if (arr[i - 1]) {
+			 				arr[i - 1].style.background="#fff";			 				
+			 			}
+			 		}
+			 	}, i * 500)
+			})(i)
+		}
 	}
 
 </script>
