@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 08</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			overflow: hidden;
+		}
+
+		section {
+			border: 1px solid;
+			float: left;
+			overflow: hidden;
+		}
+
+		div {
+			margin: 20px 20px 20px 20px;
+			border: 1px solid;
+			overflow: hidden;
+		}
+
+		section div {
+			float: left;
+			background-color: #fff;
+		}
+
+		section > div {
+			z-index: 2;
+		}
+
+		section > div > div {
+			z-index: 3;
+		}
+		
+		section > div > div > div{
+			z-index: 4;
+		}
+
+		section > div > div > div > div {
+			height: 30px;
+			z-index: 5;
+		}
+
+		.buttonBox {
+			display: block;
+			float: left;
+			margin: 0px 50px 0 50px;
+		}
+
+	</style>
+</head>
+<body>
+	<section>super
+		<div>cat
+			<div>apple
+				<div>pear</div>
+				<div>pig</div>
+				<div>cola</div>
+				<div>$occor</div>
+			</div>
+			<div>phone</div>
+			<div>Element
+				<div>book</div>
+				<div>$chool</div>
+			</div>
+		</div>
+		<div>note
+			<div>human
+				<div>code</div>
+				<div>operate</div>
+				<div>man</div>
+			</div>
+			<div>program
+				<div>Bement
+					<div>cat</div>
+				</div>
+				<div>Glass</div>
+			</div>
+		</div>
+		<div>fish</div>
+	</section>
+	<span class="buttonBox">
+		<button id="prePrderTraverse">根节点优先遍历</button>
+		<button id="postOrderTraverse">子节点优先遍历</button>
+		<input id="searchText" type="text">
+		<button id="prePrderSrarch">根节点优先查询</button>
+		<button id="postOrderSearch">子节点优先查询</button>
+	</span>
+</body>
+<script>
+	/**
+	 * 基于任务七，参考示例图，将二叉树变成了多叉树，并且每一个节点中带有内容
+	 * 提供一个按钮，显示开始遍历，点击后，以动画的形式呈现遍历的过程
+	 * 当前被遍历到的节点做一个特殊显示（比如不同的颜色）
+	 * 每隔一段时间（500ms，1s 等时间自定）再遍历下一个节点
+	 * 增加一个输入框及一个 “查询” 按钮，
+	 * 点击按钮时，开始在树中以动画形式查找节点内容和输入框中内容一致的节点，
+	 * 找到后以特殊样式显示该节点，找不到的话给出找不到的提示。查询过程中的展示过程和遍历过程保持一致
+	 */
+	
+	let tree = document.querySelector('section')
+	let arr
+	//按钮
+	document.querySelector('#prePrderTraverse').onclick = function() {
+		arr = []
+		prePrderTraverse(tree)
+		toggleTree()
+	}
+	document.querySelector('#postOrderTraverse').onclick = function() {
+		arr = []
+		postOrderTraverse(tree)
+		toggleTree()
+	}
+	document.querySelector('#prePrderSearch').onclick = function() {
+		arr = []
+
+	}
+	document.querySelector('#postOrderSearch').onclick = function() {
+
+	}
+	//先遍历根节点，之后遍历子节点
+	function prePrderTraverse(tree) {
+		arr.push(tree)
+		for (let i = 0; i < tree.children.length; i++) {
+			if (tree.children[i]) {
+				prePrderTraverse(tree.children[i])
+			}
+		}
+	}
+	//先遍历子节点，之后遍历父节点
+	function postOrderTraverse(tree) {
+		for (let i = 0; i < tree.children.length; i++) {
+			if (tree.children[i]) {
+				prePrderTraverse(tree.children[i])
+			}
+		}
+		arr.push(tree)
+	}
+	//优先根节点查询遍历
+	function prePrderTraverse(tree) {
+		arr.push(tree.innerHTML.replace(/\D/))
+		for (let i = 0; i < tree.children.length; i++) {
+			if (tree.children[i]) {
+				prePrderTraverse(tree.children[i])
+			}
+		}
+	}
+	//动画部分
+	function toggleTree() {
+		for (let i = 0; i < arr.length + 1; i++) {
+			(function(i){
+				setTimeout(function(){
+					if (i < arr.length + 1) {
+			 			if (arr[i]) {
+			 				arr[i].style.background="#cfc";			 				
+			 			}
+			 			if (arr[i - 1]) {
+			 				arr[i - 1].style.background="#fff";			 				
+			 			}
+			 		}
+			 	}, i * 500)
+			})(i)
+		}
+	}
+
+</script>
+</html>
